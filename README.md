@@ -8,7 +8,7 @@ Check out the [Demo](http://eclipse1979.github.io/Leaflet.ConditionalLayer/examp
 
 To use Leaflet-ConditionalLayer you have to create the control. **The slider's id (in the options) must be the same as the variable name used by the slider.** For instance in the following code, options should have `id: "newSlider"`. The function fn should only take the value of the input as a parameter and will be called when the input value is changed.
 
-    L.conditionalMarkers(<ILayer[]> Layers, <Leaflet.COnitionalLayer options> options).addTo(map);
+    L.conditionalMarkers(<ILayer[]> Layers, <Leaflet.ConitionalLayer options> options).addTo(map);
     
 Layers must be an array of [ILayers](http://leafletjs.com/reference.html#ilayer).
 The preference order of an ILayer shown depends its id in Layers. The layer will choose the first ILayers in the viewport in the array, thus the lower an ILayer's id, the more it will to be shown.
