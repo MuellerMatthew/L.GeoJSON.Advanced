@@ -28,4 +28,6 @@ Methods are the same as those of [FeatureGroup](http://leafletjs.com/reference.h
 
 ## Options :
 * `maxMarkers:` maximal number of markers
+* `DisplaySort`: function to sort/order markers so that the maxMarkers shown are highest priority.
+
 
