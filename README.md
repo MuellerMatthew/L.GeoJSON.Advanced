@@ -28,6 +28,7 @@ Methods are the same as those of [FeatureGroup](http://leafletjs.com/reference.h
 
 ## Options :
 * `maxMarkers:` maximal number of markers
-* `DisplaySort`: function to sort/order markers so that the maxMarkers shown are highest priority.
+* `DisplaySort`: function to sort/order markers so that the maxMarkers shown are highest priority. By default it recieves feature a, b, and returns (b - a); 
+* `DisplayFilter`: function to filter markers before selecting the highest priority markers to show on the map. By default it recieves feature, and returns true.
 
 
