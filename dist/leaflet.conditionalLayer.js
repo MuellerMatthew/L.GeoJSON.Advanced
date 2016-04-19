@@ -33,7 +33,7 @@
 			 * Sorts the markers before selecting the maximum number of results. 
 			 */
 	  		DisplaySort: function(a, b) {
-				return b - a;
+				return b._leaflet_id - a._leaflet_id;
 			},
 			/**
 			 * Filters locations as they are displayed on the map. Locations which fail the filter are not displayed, but 
