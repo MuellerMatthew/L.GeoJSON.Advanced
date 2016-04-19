@@ -28,7 +28,7 @@
 		
 		/**
 		 * If autohide is true, the layer will listen for zoom end, and check if the layer should still be displayed on the map. 
-		 * @type {Boolean}
+		 * @type {boolean}
 		 */
 		autohide: true,
 
@@ -51,71 +51,71 @@
 
 		var i, len;
 
-		if (geojson) {
+		if ( geojson ) {
 			len = geojson.length;
 			for (i = 0; i < len; i++) {
 				this.addLayer(geojson[i]);
 			}
 		}
 		
-      this._markers= [];
-    	this.onMap= false;
+      		this._markers= [];
+    		this.onMap= false;
 	},
 	
-    setMaxMarkers: function (i) {
-    	if (this.options.maxMarkers != undefined) {
-	    	this.options.maxMarkers=i;
-    	}
-    },
+	setMaxMarkers: function ( i ) {
+		if ( this.options.maxMarkers != undefined ) {
+			this.options.maxMarkers=i;
+		}
+	},
 
-    addLayer: function (layer) {
-      this._markers.push(layer);
-      if (this._map !=undefined){
-        this._update();
-      }
-    },
+	addLayer: function ( layer ) {
+		this._markers.push(layer);
+		if ( this._map !=undefined ) {
+			this._update();
+		}
+	},
     
-    removeLayer: function (layer) {
-      var markerIndex;
+	removeLayer: function (layer) {
+		var markerIndex;
+		
+		for (var i = 0; i < this._markers.length; i++) {
+			if (this._markers[i] == layer) {
+				markerIndex = i;
+				break;
+			}
+		}
+		
+		if (typeof markerIndex !== 'undefined') {
+			this._markers.splice(markerIndex, 1);
+			this._layer.removeLayer(layer);
+		}
+	},
+	
+	onAdd: function (map) {
+		this._map = map;
+		var self = this;
+		this.onMap = true;
+		if (map != null) {
+			map.on("moveend", this._update, this );
+		}
+	
+		// Add layer to the map
+		this._layer = new L.geoJson(null, this.options);
+		layer._parent = this;
+		layer.options.filter = function(){return true;}//preventing the child from inheriting the parents filter. 
+		this._map.addLayer(this._layer);
+		
+		this._addMarkers();
+		this._cleanupMarkers();
+		
+		L.FeatureGroup.prototype.onAdd.call(this, map);
+	},
 
-      for (var i = 0; i < this._markers.length; i++) {
-        if (this._markers[i] == layer) {
-          markerIndex = i;
-          break;
-        }
-      }
-
-      if (typeof markerIndex !== 'undefined') {
-        this._markers.splice(markerIndex, 1);
-        this._layer.removeLayer(layer);
-      }
-    },
-
-    onAdd: function (map) {
-      this._map = map;
-      var self = this;
-      this.onMap = true;
-      if (map != null) {
-        map.on("moveend", this._update, this );
-      }
-
-      // Add layer to the map
-      this._layer = new L.geoJson(null, this.options);
-      layer._parent = this;
-      layer.options.filter = function(){return true;}//preventing the child from inheriting the parents filter. 
-      this._map.addLayer(this._layer);
-      
-      this._addMarkers();
-      this._cleanupMarkers();
-
-      L.FeatureGroup.prototype.onAdd.call(this, map);
-    },
-
-    onRemove: function() {
-      this._removeMarkers();
-      this.onMap = false;
-      map.off("moveend", this._update);
-    },
+	onRemove: function() {
+		this._removeMarkers();
+		this.onMap = false;
+		map.off("moveend", this._update);
+	},
     
 	/**
 	 * Checks whether a layer should be visible on the map based upon its minZoom, and then
@@ -145,72 +145,72 @@
 		return map.hasLayer(this);
 	},
 
-    _update: function (e) {
-    	if(e && this.options.autohide !== false) {
-		this.checkZoom(e.target._zoom);
-	}
-      // Perform updates to markers on map
-      if (this.onMap==true) {
-        this._removeMarkers()._addMarkers()._cleanupMarkers();
-      }
-    },
-
-    _addMarkers: function () {
-      // Add select markers to layer; skips existing ones automatically
-      var i, marker,
-      options = this.options,
-      list = [];
-
-      var markers = this._getMarkersInViewport(this._map);
-      
-      for (i = markers.length - 1; i >= 0; i--) {
-		if( options.displayFilter(markers[i].feature) ) {
-			list.push(markers[i]);
+	_update: function (e) {
+		if(e && this.options.autohide !== false) {
+			this.checkZoom(e.target._zoom);
 		}
-	}
-      markers.sort(options.DisplaySort);
+		// Perform updates to markers on map
+		if (this.onMap==true) {
+			this._removeMarkers()._addMarkers()._cleanupMarkers();
+		}
+	},
 
-      for (i = 0; i < markers.length && i < options.maxMarkers; i++) {
-        marker = markers[i];
-        this._layer.addLayer(marker);
-      }
-      return this;
-    },
+	_addMarkers: function () {
+		// Add select markers to layer; skips existing ones automatically
+		var i, marker,
+		options = this.options,
+		list = [];
+		
+		var markers = this._getMarkersInViewport(this._map);
+		
+		for (i = markers.length - 1; i >= 0; i--) {
+			if( options.displayFilter(markers[i].feature) ) {
+				list.push(markers[i]);
+			}
+		}
+		markers.sort(options.DisplaySort);
+		
+		for (i = 0; i < markers.length && i < options.maxMarkers; i++) {
+			marker = markers[i];
+			this._layer.addLayer(marker);
+		}
+		return this;
+	},
 
-    _removeMarkers: function () {
-    	if(this._layer) {
-      		this._layer.clearLayers();
-    	}
-    	return this;
-    },
+	_removeMarkers: function () {
+		if(this._layer) {
+			this._layer.clearLayers();
+		}
+		return this;
+	},
 
-    _cleanupMarkers: function () {
-	// Remove out-of-bounds markers
-	// Also keep those with popups or in expanded clusters
-	var bounds = this._map.getBounds();
-	
-	this._layer.eachLayer(function (marker) {
-	if (!bounds.contains(marker.getLatLng()) && (!marker._popup || !marker._popup._container)) {
-	  this._layer.removeLayer(marker);
-	}
-	}, this);
-     	return this;
-    },
+	_cleanupMarkers: function () {
+		// Remove out-of-bounds markers
+		// Also keep those with popups or in expanded clusters
+		var bounds = this._map.getBounds();
+		
+		this._layer.eachLayer(function (marker) {
+			if (!bounds.contains(marker.getLatLng()) && (!marker._popup || !marker._popup._container)) {
+		  	this._layer.removeLayer(marker);
+			}
+		}, this);
+	     return this;
+	},
 
-    _getMarkersInViewport: function (map) {
-      var markers = [],
-        bounds = map.getBounds(),
-        i,
-        marker;
-
-      for (i = 0; i < this._markers.length; i++) {
-        marker = this._markers[i];
-        if (bounds.contains(marker.getLatLng())) {
-          markers.push(marker);
-        }
-      }
-      return markers;
-    },
+	_getMarkersInViewport: function (map) {
+		var markers = [],
+		bounds = map.getBounds(),
+		i,
+		marker;
+		
+		for (i = 0; i < this._markers.length; i++) {
+			marker = this._markers[i];
+			if (bounds.contains(marker.getLatLng())) {
+				markers.push(marker);
+			}
+		}
+		return markers;
+	},
     
 	list: function(n) {
 		return this._markers;
@@ -230,10 +230,10 @@
   });
 
   L.specializedGeoJSON = function (markers, options) {
-    var layer = new L.SpecializedGeoJSON(null, options),
-    	i;
-    for(i in markers) {
-      layer._markers[i] = markers[i];
-    }
-    return layer;
+	var layer = new L.SpecializedGeoJSON(null, options),
+	    i;
+	for(i in markers) {
+		layer._markers[i] = markers[i];
+	}
+	return layer;
   };
