@@ -156,7 +156,6 @@
 			} else {
 				if ( !map.hasLayer(this) && this.autoHidden === true ) {
 					map.addLayer(this);
-					this._oldMap = undefined;
 					this.autoHidden = false;
 				}
 			}
