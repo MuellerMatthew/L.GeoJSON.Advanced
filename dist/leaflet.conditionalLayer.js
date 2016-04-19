@@ -1,5 +1,5 @@
 // Loads a maximum number of markers in the frame
-// based upon the Leaflet-ContitionalLayer plugin,modified to support geoJson
+// based upon the Leaflet-ContitionalLayer plugin, modified to support geoJson
 // layers, and to add additional features and configuration options. 
 // Inspired on the work of Ishmael Smyrnow
 
