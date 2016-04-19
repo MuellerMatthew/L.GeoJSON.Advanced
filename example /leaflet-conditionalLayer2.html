@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="leaflet/leaflet.css" />
 	<script src="leaflet/leaflet.js"></script>
 	<script src="support/JQuery-1.11.1.min.js"></script>
-	<script src="../dist/leaflet.conditionalLayer.js"></script>
+	<script src="../dist/leaflet.AdvancedGeoJSON.js"></script>
 </head>
 <body>
 	<div id="map" style="top:0px; bottom:0px; left:0px; right:0px; position:absolute;"></div>
@@ -28,15 +28,15 @@
 		}).addTo(map);
 
 
-		var conditionalLayer = L.conditionalMarkers([], {maxMarkers: 300});
-		var layerControl = L.control.layers([], {"Circles" :conditionalLayer}).addTo(map);
+		var Layer = L.advancedGeoJSON([], {maxMarkers: 300});
+		var layerControl = L.control.layers([], {"Circles" :Layer}).addTo(map);
 		var url = "support/listOfCircles.json"
         $.ajax({
             dataType: "json",
             url: url,
             success: function(data) {
                 for(var marker = 0;marker< data.length; marker++) {
-                    conditionalLayer.addLayer(
+                    Layer.addLayer(
                     	L.circle([data[marker].posz*90-45, 
                     		data[marker].posy*360-180], 
                     		data[marker].radius*10e5, 
@@ -47,7 +47,7 @@
 						)
 					);
                 }
-                conditionalLayer.addTo(map);
+                Layer.addTo(map);
             }
         });
 	</script>
