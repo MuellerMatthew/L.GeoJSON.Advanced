@@ -20,7 +20,7 @@
 	}
 }(function (L) {
 
-	L.SpecializedGeoJSON = L.GeoJSON.extend({
+	L.AdvancedGeoJSON = L.GeoJSON.extend({
 	  	
 	  	options: {
 			/**
@@ -247,7 +247,7 @@
 		}
 	});
 	
-	L.specializedGeoJSON = function (markers, options) {
+	L.advancedGeoJSON = function (markers, options) {
 		var layer = new L.SpecializedGeoJSON(null, options),
 			i;
 		for(i in markers) {
@@ -256,5 +256,5 @@
 		return layer;
 	};
 	
-	return L.SpecializedGeoJSON;
+	return L.AdvancedGeoJSON;
 }));
