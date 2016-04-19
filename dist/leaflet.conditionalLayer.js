@@ -1,13 +1,15 @@
-// Loads a given number of markers visible in the frame
+// Loads a maximum number of markers in the frame
+// based upon the Leaflet-ContitionalLayer plugin,modified to support geoJson
+// layers, and to add additional features and configuration options. 
 // Inspired on the work of Ishmael Smyrnow
 
-  L.ConditionalMarkers = L.GeoJSON.extend({
+  L.SpecializedGeoJSON = L.GeoJSON.extend({
   	
   	options: {
 		/**
 		 * Defines the maximum number of markers or sub-layers which the layer can be desplay on the screen at any
 		 * time. Note, this can also be passed as a function which returns the number. 
-		 * @type {Number}
+		 * @type {number|function} Default value: 500
 		 */
   		maxMarkers: 500,
   		/**
@@ -227,8 +229,8 @@
 	}
   });
 
-  L.conditionalMarkers = function (markers, options) {
-    var layer = new L.ConditionalMarkers(null, options),
+  L.specializedGeoJSON = function (markers, options) {
+    var layer = new L.SpecializedGeoJSON(null, options),
     	i;
     for(i in markers) {
       layer._markers[i] = markers[i];
