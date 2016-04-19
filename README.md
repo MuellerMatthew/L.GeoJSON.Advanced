@@ -1,4 +1,4 @@
-#Leaflet-AdvanceGeoJSON
+#Leaflet-AdvancedGeoJSON
 
 A geojson layer which sorts and limits how many sublayers are visible in the viewport, and limits when the layers are shown.
 
