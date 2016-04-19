@@ -27,7 +27,8 @@
 		},
 		
 		/**
-		 * If autohide is true, the layer will listen for zoom end, and check if the layer should still be displayed on the map. 
+		 * If autohide is true, the layer will listen for zoom end, and check if the layer should still be displayed on the map.
+		 * If the layer is outside of the min and max zooms the layer will not show on the map. 
 		 * @type {boolean}
 		 */
 		autohide: true,
