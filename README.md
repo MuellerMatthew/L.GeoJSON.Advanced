@@ -1,6 +1,6 @@
 #Leaflet-AdvancedGeoJSON
 
-A geojson layer which sorts and limits how many sublayers are visible in the viewport, and limits when the layers are shown.
+A geojson layer which sorts and limits how many sublayers are visible in the viewport, and limits when the layers are shown. Based upon the leaflet-conditionalLayer plugin by Eclipse1979 for featureGroups.
 
 Check out the [Demo](http://eclipse1979.github.io/Leaflet.ConditionalLayer/example/leaflet-conditionalLayer2.html). Note that on this page there are more than 40 000 circles.
 
