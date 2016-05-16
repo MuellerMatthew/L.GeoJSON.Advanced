@@ -16,13 +16,20 @@ The default preference order of an ILayer shown depends its id in Layers, but ot
     	L.circle(pos, radius, options),
     	L.marker(pos, options),
     	…
-    ];
+    ],
     options = {
     maxMarkers: 100,
     displaySort: function(a, b) {return b.feature.properties.score - a.feature.properties.score;}
-    
+    displayFilters: [
+        function( properties ) {
+            return (properties.value1 === 'value1');
+        },
+        function ( properties ) {
+            return (properties.value2 !=== 'value2');
+        }
+    ]
     };
-    var Layer = L.AdvancedGeoJSON(geojson, options).addTo(map);
+    var Layer = L.geojson.advanced(geojson, options).addTo(map);
 
 ## Methods :
 
