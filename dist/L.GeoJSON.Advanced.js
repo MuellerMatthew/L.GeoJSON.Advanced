@@ -82,6 +82,10 @@
 	    		this.onMap= false;
 		},
 		
+		/**
+		 * Used to update the maxMarkers limit with a new limit.
+		 * @param {integer} i number of maxMarkers that the layer is allowed to show on the screen at any given time.
+		 */
 		setMaxMarkers: function ( i ) {
 			if ( this.options.maxMarkers != undefined ) {
 				this.options.maxMarkers=i;
@@ -125,9 +129,13 @@
 			layer.options.filter = function(){return true;}//preventing the child from inheriting the parents filter. 
 			this._map.addLayer(this._layer);
 			
-			this._addMarkers();
-			this._cleanupMarkers();
-			
+			if(this.options.autohide !== false) {
+				var visible = this.checkZoom( map.getZoom() );
+				if ( visible ) {
+					this._addMarkers();
+					this._cleanupMarkers();
+				}
+			}
 			L.GeoJSON.prototype.onAdd.call(this, map);
 		},
 	
@@ -175,7 +183,7 @@
 		},
 	
 		_addMarkers: function () {
-			// Add select markers to layer; skips existing ones automatically
+			// Add select markers to visible layer; skips existing ones automatically
 			var i, marker,
 			options = this.options,
 			list = [];
