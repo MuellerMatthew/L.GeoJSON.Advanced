@@ -40,7 +40,7 @@
 			 * are retained in the layer.  This allows for faster on the fly changing of the visibility of locations with checkboxes, etc. 
 			 */
 			displayFilters: [
-				function( feature ) {
+				function( properties ) {
 					return true;
 				}
 			],
