@@ -187,7 +187,7 @@
 					list.push(markers[i]);
 				}
 			}
-			markers.sort(options.DisplaySort);
+			markers.sort(options.displaySort);
 			
 			for (i = 0; i < markers.length && i < options.maxMarkers; i++) {
 				marker = markers[i];
