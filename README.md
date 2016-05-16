@@ -38,6 +38,6 @@ Methods are the same as those of [GeoJSON](http://leafletjs.com/reference-1.0.0.
 ## Options :
 * `maxMarkers:` maximal number of markers
 * `DisplaySort`: function to sort/order markers so that the maxMarkers shown are highest priority. By default it recieves feature a, b, and returns (b - a); 
-* `DisplayFilter`: function to filter markers before selecting the highest priority markers to show on the map. By default it recieves feature, and returns true.
+* `DisplayFilters`: An array of functions which are used to check whether a marker should be shown on the map.  If any of the functions in the array return false the marker will not be shown. Allows for display filters to be dynamically added and removed from a layer. 
 
 
