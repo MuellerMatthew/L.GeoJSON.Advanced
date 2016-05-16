@@ -43,4 +43,7 @@ Methods are the same as those of [GeoJSON](http://leafletjs.com/reference-1.0.0.
 * `maxZoom` : The maximum zoom level in which the layer should show up on the map.
 * `displayFilters`: An array of functions which are used to check whether a marker should be shown on the map.  If any of the functions in the array return false the marker will not be shown. Allows for display filters to be dynamically added and removed from a layer.   Default function in the array of functions is `function( properties ) { return true;}`
 
+## Methods :
+* `setMaxMarkers` - used to change the maximum number of markers the layer will show on the map.
+
 
