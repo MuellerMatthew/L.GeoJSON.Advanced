@@ -1,7 +1,7 @@
 // Loads a maximum number of markers in the frame
 // based upon the Leaflet-ContitionalLayer plugin, modified to support geoJson
 // layers, and to add additional features and configuration options. 
-// Inspired on the work of Ishmael Smyrnow
+// Some parts are inspired on the work of Ishmael Smyrnow
 
 (function (factory) {
 	var L;
@@ -20,7 +20,7 @@
 	}
 }(function (L) {
 
-	L.AdvancedGeoJSON = L.GeoJSON.extend({
+	L.GeoJSON.Advanced = L.GeoJSON.extend({
 	  	
 	  	options: {
 			/**
@@ -32,16 +32,18 @@
 	  		/**
 			 * Sorts the markers before selecting the maximum number of results. 
 			 */
-	  		DisplaySort: function(a, b) {
+	  		displaySort: function(a, b) {
 				return b._leaflet_id - a._leaflet_id;
 			},
 			/**
 			 * Filters locations as they are displayed on the map. Locations which fail the filter are not displayed, but 
 			 * are retained in the layer.  This allows for faster on the fly changing of the visibility of locations with checkboxes, etc. 
 			 */
-			displayFilter: function( feature ) {
-				return true;
-			},
+			displayFilters: [
+				function( feature ) {
+					return true;
+				}
+			],
 			
 			/**
 			 * If autohide is true, the layer will listen for zoom end, and check if the layer should still be displayed on the map.
@@ -126,7 +128,7 @@
 			this._addMarkers();
 			this._cleanupMarkers();
 			
-			L.FeatureGroup.prototype.onAdd.call(this, map);
+			L.GeoJSON.prototype.onAdd.call(this, map);
 		},
 	
 		onRemove: function() {
@@ -181,7 +183,7 @@
 			var markers = this._getMarkersInViewport(this._map);
 			
 			for (i = markers.length - 1; i >= 0; i--) {
-				if( options.displayFilter(markers[i].feature) ) {
+				if( _checkDisplayFilter(markers[i].feature) ) {
 					list.push(markers[i]);
 				}
 			}
@@ -213,8 +215,20 @@
 			}, this);
 		     return this;
 		},
+
+		_checkDisplayFilter: function( feature ) {
+			var i, 
+				list = this.displayFilterList,
+				properties = feature.properties;
+			for (i in list)  {
+				if( list[i](properties) === false ) {
+					return false; 
+				}
+			}
+			return true;
+		}
 	
-		_getMarkersInViewport: function (map) {
+		_getMarkersInViewport: function ( map ) {
 			var markers = [],
 			bounds = map.getBounds(),
 			i,
@@ -246,8 +260,8 @@
 		}
 	});
 	
-	L.advancedGeoJSON = function (markers, options) {
-		var layer = new L.SpecializedGeoJSON(null, options),
+	L.geojson.advanced = function (markers, options) {
+		var layer = new L.GeoJSON.Advanced(null, options),
 			i;
 		for(i in markers) {
 			layer._markers[i] = markers[i];
@@ -255,5 +269,5 @@
 		return layer;
 	};
 	
-	return L.AdvancedGeoJSON;
+	return L.GeoJSON.Advanced;
 }));
